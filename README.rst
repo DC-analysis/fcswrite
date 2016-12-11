@@ -13,7 +13,7 @@ Compatibility
 -------------
 fcswrite is compatible to the following FCS file reading libraries:
 
-- Python Flow Cytometry (FCM) Tools: `fcm <https://pypi.python.org/pypi/fcm`__
+- Python Flow Cytometry (FCM) Tools: `fcm <https://pypi.python.org/pypi/fcm>`__
 
 
 Installation
