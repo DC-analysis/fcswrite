@@ -35,7 +35,7 @@ if __name__ == "__main__":
     setup(
         name=name,
         author=author,
-        author_email='paul.mueller at biotec.tu-dresden.de',
+        author_email='paul.mueller@biotec.tu-dresden.de',
         url='http://ZELLMECHANIK-DRESDEN.github.io/fcswrite/',
         version=version,
         packages=[name],
