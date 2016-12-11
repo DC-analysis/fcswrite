@@ -38,7 +38,7 @@ if __name__ == "__main__":
                        # fcm requires matplotlib.nxutils which was removed
                        # in matplotlib version 1.3.0:
                        # http://matplotlib.org/1.3.0/api/api_changes.html
-                       "matplotlib==1.1.0"
+                       "matplotlib<1.3.0"
                        ],
         keywords=["fcs", "flow cytometry", "flow cytometry standard"],
         classifiers= [
