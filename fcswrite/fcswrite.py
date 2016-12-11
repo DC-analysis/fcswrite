@@ -66,7 +66,6 @@ def write_fcs(filename, chn_names, data,
     ltxt = 4096
     ver='FCS3.0'
     textfirst= '{0: >8}'.format(256)
-    textlast = '{0: >8}'.format(256+ltxt-1)
     datafirst= '{0: >8}'.format(256+ltxt)
     datalast = '{0: >8}'.format(256+ltxt+len(DATA)-1)
     anafirst = '{0: >8}'.format(0)
@@ -87,6 +86,7 @@ def write_fcs(filename, chn_names, data,
         # - Set log/lin 
         TEXT+='/$P{0}B/32/$P{0}E/0,0/$P{0}N/{1}/$P{0}R/{2}/$P{0}D/Linear'.format(i+1, chn_names[i], pnrange)
     TEXT += '/'
+    textlast = '{0: >8}'.format(len(TEXT)+256-1)
     TEXT = TEXT.ljust(ltxt, ' ')
 
     # HEADER segment

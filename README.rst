@@ -9,6 +9,12 @@ Currently, fcswrite partially supports the FCS3.0 file format - Contributions
 to fcswrite are welcome.
 
 
+Compatibility
+-------------
+fcswrite is compatible to the following FCS file reading libraries:
+- Python Flow Cytometry (FCM) Tools: [fcm](https://pypi.python.org/pypi/fcm)
+
+
 Installation
 ------------
 

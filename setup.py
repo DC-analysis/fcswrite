@@ -8,12 +8,12 @@ import sys
 author = u"Paul Müller"
 authors = ["Philipp Rosendahl", author]
 name = 'writefcs'
-description = 'Write .fcs files for flow cytometry'
+description = 'Write .fcs files (flow cytometry)'
 year = "2016"
 
 long_description = """
-This package provides basic functionalities for writing .fcs files,
-a file format used broadly in flow cytometry.
+This package provides basic functionalities for writing flow cytometry
+standard (.fcs) files.
 """
 
 sys.path.insert(0, realpath(dirname(__file__))+"/"+name)
@@ -33,8 +33,14 @@ if __name__ == "__main__":
         long_description=open('README.rst').read() if exists('README.rst') else '',
         install_requires=["NumPy>=1.7.0"],
         setup_requires=['pytest-runner'],
-        tests_require=["pytest"],
-        keywords=["fcs", "flow cytometry"],
+        tests_require=["pytest",
+                       "fcm",
+                       # fcm requires matplotlib.nxutils which was removed
+                       # in matplotlib version 1.3.0:
+                       # http://matplotlib.org/1.3.0/api/api_changes.html
+                       "matplotlib<1.1.0"
+                       ],
+        keywords=["fcs", "flow cytometry", "flow cytometry standard"],
         classifiers= [
             'Operating System :: OS Independent',
             'Programming Language :: Python :: 2.7',
