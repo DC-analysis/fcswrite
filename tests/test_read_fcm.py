@@ -3,6 +3,7 @@
 import numpy as np
 import os
 from os.path import join, dirname, abspath, split
+import pytest
 import sys
 import tempfile
 
@@ -18,6 +19,7 @@ sys.path.insert(0, split(DIR)[0])
 import fcswrite
 
 
+@pytest.mark.skipif("sys.version_info >= (3,0)")
 def test_read_fcm():
     """test that fcm can read the data files"""
 
