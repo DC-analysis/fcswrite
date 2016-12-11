@@ -18,9 +18,14 @@ fcswrite is compatible to the following FCS file reading libraries:
 
 Installation
 ------------
+Install with pip:
+::
 
-Dependencies
-~~~~~~~~~~~~
+    pip install fcswrite
+
+
+Requirements:
+
 - Python 2.7 or Python 3.x
 - `numpy <https://github.com/numpy/numpy>`__
 
