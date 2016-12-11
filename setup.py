@@ -35,10 +35,8 @@ if __name__ == "__main__":
         setup_requires=['pytest-runner'],
         tests_require=["pytest",
                        "fcm",
-                       # fcm requires matplotlib.nxutils which was removed
-                       # in matplotlib version 1.3.0:
-                       # http://matplotlib.org/1.3.0/api/api_changes.html
-                       "matplotlib<1.3.0"
+                       # Note:
+                       # scipy and matplotlib<1.3.0 are required for fcm
                        ],
         keywords=["fcs", "flow cytometry", "flow cytometry standard"],
         classifiers= [
