@@ -37,6 +37,9 @@ if __name__ == "__main__":
                        "fcm",
                        # Note:
                        # scipy and matplotlib<1.3.0 are required for fcm
+                       # To be able to use matplotlib>1.3.0, we monkeypatch
+                       # matplotlib for fcm.
+                       "mock",
                        ],
         keywords=["fcs", "flow cytometry", "flow cytometry standard"],
         classifiers= [
