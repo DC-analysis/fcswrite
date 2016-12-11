@@ -24,7 +24,7 @@ def write_fcs(filename, chn_names, data,
         The numpy array data to store as .fcs file format. 
     compat_chn_names: bool
         Compatibility mode for 3rd party flow analysis software:
-        The characters " ", "?", and "_" are removed from the output
+        The characters " ", "?", and "_" are removed in the output
         channel names.
     compat_percent: bool
         Compatibliity mode for 3rd party flow analysis software:
@@ -33,16 +33,29 @@ def write_fcs(filename, chn_names, data,
     compat_copy: bool
         Do not override the input array `data` when modified in
         compatibility mode.
+
+    Notes
+    -----
+    These commonly used unicode characters are replaced: "µ", "²"
+
     """
     msg="length of `chn_names` must match length of 2nd axis of `data`"
     assert len(chn_names) == data.shape[1], msg
 
+    rpl = [["µ", "u"],
+           ["²", "2"],
+          ]
+    
     if compat_chn_names:
         # Compatibility mode: Clean up headers.
-        for i in range(len(chn_names)):
-            chn_names[i] = chn_names[i].replace(' ', '')
-            chn_names[i] = chn_names[i].replace('?', '')
-            chn_names[i] = chn_names[i].replace('_', '')
+        rpl += [[" ", ""],
+                ["?", ""],
+                ["_", ""],
+                ]
+
+    for i in range(len(chn_names)):
+        for (a, b) in rpl:
+            chn_names[i] = chn_names[i].replace(a, b)
 
     if compat_percent:
         # Compatibility mode: Scale values b/w 0 and 1 to percent
@@ -104,4 +117,3 @@ def write_fcs(filename, chn_names, data,
         fd.write(TEXT)
         fd.write(DATA)
         fd.write('00000000')
-        fd.close()
