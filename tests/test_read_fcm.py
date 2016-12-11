@@ -7,11 +7,6 @@ import pytest
 import sys
 import tempfile
 
-# fix for fcm, which does not support matplotlib>=1.3.0
-from mock import patch, MagicMock
-module_mock = MagicMock()
-
-
 # Add parent directory to beginning of path variable
 DIR = dirname(abspath(__file__))
 sys.path.insert(0, split(DIR)[0])
@@ -22,6 +17,9 @@ import fcswrite
 @pytest.mark.skipif("sys.version_info >= (3,0)")
 def test_read_fcm():
     """test that fcm can read the data files"""
+    # fix for fcm, which does not support matplotlib>=1.3.0
+    from mock import patch, MagicMock
+    module_mock = MagicMock()
 
     with patch.dict('sys.modules', **{ 
             'matplotlib.nxutils': module_mock,
