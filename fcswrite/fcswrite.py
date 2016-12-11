@@ -1,0 +1,107 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+"""Write .fcs files for flow cytometry"""
+from __future__ import print_function, unicode_literals, division
+
+import struct
+
+
+def write_fcs(filename, chn_names, data,
+              compat_chn_names=True,
+              compat_percent=True,
+              compat_copy=True,
+              verbose=0):
+    """Write numpy data to an .fcs file (FCS3.0 file format)
+    
+    
+    Parameters
+    ----------
+    filename: str
+        Path to the output .fcs file
+    ch_names: list of str, length C
+        Names of the output channels
+    data: 2d ndarray of shape (N,C)
+        The numpy array data to store as .fcs file format. 
+    compat_chn_names: bool
+        Compatibility mode for 3rd party flow analysis software:
+        The characters " ", "?", and "_" are removed from the output
+        channel names.
+    compat_percent: bool
+        Compatibliity mode for 3rd party flow analysis software:
+        If a column in `data` contains values only between 0 and 1,
+        they are multiplied by 100.
+    compat_copy: bool
+        Do not override the input array `data` when modified in
+        compatibility mode.
+    """
+    msg="length of `chn_names` must match length of 2nd axis of `data`"
+    assert len(chn_names) == data.shape[1], msg
+
+    if compat_chn_names:
+        # Compatibility mode: Clean up headers.
+        for i in range(len(chn_names)):
+            chn_names[i] = chn_names[i].replace(' ', '')
+            chn_names[i] = chn_names[i].replace('?', '')
+            chn_names[i] = chn_names[i].replace('_', '')
+
+    if compat_percent:
+        # Compatibility mode: Scale values b/w 0 and 1 to percent
+        toscale = []
+        for ch in range(data.shape[1]):
+            if data[:,ch].min() > 0 and data[:,ch].max() < 1:
+                toscale.append(ch)
+        if len(toscale):
+            if compat_copy:
+                # copy if requested
+                data = data.copy()
+            for ch in toscale:
+                data[:,ch] *= 100
+
+    # DATA segment
+    data1 = data.flatten().tolist()
+    DATA = struct.pack('>%sf' % len(data1), *data1)
+
+    # TEXT segment
+    # fix length of TEXT to 4 kilo bytes
+    ltxt = 4096
+    ver='FCS3.0'
+    textfirst= '{0: >8}'.format(256)
+    textlast = '{0: >8}'.format(256+ltxt-1)
+    datafirst= '{0: >8}'.format(256+ltxt)
+    datalast = '{0: >8}'.format(256+ltxt+len(DATA)-1)
+    anafirst = '{0: >8}'.format(0)
+    analast  = '{0: >8}'.format(0)
+    # use little endian
+    #byteord = '1,2,3,4'
+    # use big endian
+    byteord = '4,3,2,1'
+    TEXT ='/$BEGINANALYSIS/0/$ENDANALYSIS/0'
+    TEXT+='/$BEGINSTEXT/0/$ENDSTEXT/0'
+    TEXT+='/$BEGINDATA/{0}/$ENDDATA/{1}'.format(256+ltxt, 256+ltxt+len(DATA)-1)
+    TEXT+='/$BYTEORD/{0}/$DATATYPE/F'.format(byteord)
+    TEXT+='/$MODE/L/$NEXTDATA/0/$TOT/{0}'.format(data.shape[0])
+    TEXT+='/$PAR/{0}'.format(data.shape[1])
+    for i in range(data.shape[1]):
+        pnrange = int(abs(max(data[:,i])))
+        # TODO:
+        # - Set log/lin 
+        TEXT+='/$P{0}B/32/$P{0}E/0,0/$P{0}N/{1}/$P{0}R/{2}/$P{0}D/Linear'.format(i+1, chn_names[i], pnrange)
+    TEXT += '/'
+    TEXT = TEXT.ljust(ltxt, ' ')
+
+    # HEADER segment
+    HEADER = '{0: <256}'.format(ver+'    '+
+                                textfirst +
+                                textlast  +
+                                datafirst +
+                                datalast  +
+                                anafirst  +
+                                analast)
+
+    # Write data
+    with open(filename, "wb") as fd:
+        fd.write(HEADER)
+        fd.write(TEXT)
+        fd.write(DATA)
+        fd.write('00000000')
+        fd.close()
