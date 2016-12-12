@@ -3,12 +3,14 @@
 """Write .fcs files for flow cytometry"""
 from __future__ import print_function, unicode_literals, division
 
+import numpy as np
 import struct
 
 
 def write_fcs(filename, chn_names, data,
               compat_chn_names=True,
               compat_percent=True,
+              compat_negative=True,
               compat_copy=True,
               verbose=0):
     """Write numpy data to an .fcs file (FCS3.0 file format)
@@ -30,6 +32,9 @@ def write_fcs(filename, chn_names, data,
         Compatibliity mode for 3rd party flow analysis software:
         If a column in `data` contains values only between 0 and 1,
         they are multiplied by 100.
+    compat_negative: bool
+        Compatibliity mode for 3rd party flow analysis software:
+        Flip the sign of `data` if its mean is smaller than zero.
     compat_copy: bool
         Do not override the input array `data` when modified in
         compatibility mode.
@@ -39,6 +44,9 @@ def write_fcs(filename, chn_names, data,
     These commonly used unicode characters are replaced: "µ", "²"
 
     """
+    if not isinstance(data, np.ndarray):
+        data = np.array(data)
+    
     msg="length of `chn_names` must match length of 2nd axis of `data`"
     assert len(chn_names) == data.shape[1], msg
 
@@ -69,6 +77,19 @@ def write_fcs(filename, chn_names, data,
                 data = data.copy()
             for ch in toscale:
                 data[:,ch] *= 100
+
+    if compat_negative:
+        toflip = []
+        for ch in range(data.shape[1]):
+            if np.mean(data[:,ch]) < 0:
+                toflip.append(ch)
+        if len(toflip):
+            if compat_copy:
+                # copy if requested
+                data = data.copy()
+            for ch in toflip:
+                data[:,ch] *= -1
+        
 
     # DATA segment
     data1 = data.flatten().tolist()
