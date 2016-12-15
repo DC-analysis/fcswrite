@@ -134,7 +134,7 @@ def write_fcs(filename, chn_names, data,
 
     # Write data
     with open(filename, "wb") as fd:
-        fd.write(HEADER)
-        fd.write(TEXT)
+        fd.write(HEADER.encode("ascii"))
+        fd.write(TEXT.encode("ascii"))
         fd.write(DATA)
-        fd.write('00000000')
+        fd.write(b'00000000')

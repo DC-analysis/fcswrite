@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import md5
+import hashlib
 import numpy as np
 import os
 from os.path import join, dirname, abspath, split
@@ -24,15 +24,17 @@ def test_write_fcs():
                        chn_names=chn_names,
                        data=data
                        )
-    hasher = md5.md5()
+
     with open(fname, "rb") as fd:
-        # Remove empty spaces
-        # Maybe the empty characters will be changed in a future
-        # file format. This could cause this test to fail.
-        data = fd.read().replace(" ", "")
+        data = fd.read()
+    data = np.frombuffer(data, dtype=np.uint16)
+    # remove empty lines
+    data = data[data != 8224]
+    data = data.tostring()
+    hasher = hashlib.md5()
     hasher.update(data)
     hexval=hasher.hexdigest()
-    assert hexval == "086539803c3a8479e33d0e059d1ef8c9"
+    assert hexval == "bbb090b99ccb1c9b1d8b43b83eddc7d3"
     os.remove(fname)
 
 

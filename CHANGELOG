@@ -1,5 +1,6 @@
 0.1.2
 - replace common unicode characters in channel names
+- improve compatibility with Python 3
 0.1.1
 - functional library
 0.1.0
