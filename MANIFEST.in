@@ -1,8 +1,4 @@
-include examples/*.py
-include examples/data/*.tdms
-include doc/*
-include doc/doc_include/*.txt
-include doc/extensions/*.py
+include CHANGELOG
 include README.rst
-include tests/data/*.fcs
-include tests/*.py
+recursive-include tests *.zip *.md *.py
+recursive-include examples *.md *.fcs *.tdms *.py
