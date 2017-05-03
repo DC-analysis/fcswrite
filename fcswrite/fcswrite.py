@@ -12,6 +12,7 @@ def write_fcs(filename, chn_names, data,
               compat_percent=True,
               compat_negative=True,
               compat_copy=True,
+              compat_fixed_range_for_fl=True,
               verbose=0):
     """Write numpy data to an .fcs file (FCS3.0 file format)
     
@@ -105,7 +106,7 @@ def write_fcs(filename, chn_names, data,
     anafirst = '{0: >8}'.format(0)
     analast  = '{0: >8}'.format(0)
     # use little endian
-    #byteord = '1,2,3,4'
+    # byteord = '1,2,3,4'
     # use big endian
     byteord = '4,3,2,1'
     TEXT ='/$BEGINANALYSIS/0/$ENDANALYSIS/0'
@@ -114,11 +115,21 @@ def write_fcs(filename, chn_names, data,
     TEXT+='/$BYTEORD/{0}/$DATATYPE/F'.format(byteord)
     TEXT+='/$MODE/L/$NEXTDATA/0/$TOT/{0}'.format(data.shape[0])
     TEXT+='/$PAR/{0}'.format(data.shape[1])
+    
+    # Check for content of data columns and set range
     for i in range(data.shape[1]):
-        if chn_names[i].endswith("maximum[a.u.]"):
+        # Check if this is fluorescence data, set range to 2**15
+        if chn_names[i].endswith("maximum[a.u.]") and compat_fixed_range_for_fl:
             pnrange = int(2**15)
-        elif chn_names[i] == "Deformation":
-            pnrange = 100
+        # If this is deformation, range shall be 100 (percent) or 1
+        elif chn_names[i] == "Deformation" or chn_names[i]=="Circularity:
+            # if column contains scaled data, set range to 100
+            if i in toscale:
+              pnrange = 100
+            # if not, to 1
+            else:
+              pnrange = 1
+        # default: set range to maxium value found in column
         else:
             pnrange = int(abs(max(data[:,i])))
         # TODO:
