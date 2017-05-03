@@ -122,7 +122,7 @@ def write_fcs(filename, chn_names, data,
         if chn_names[i].endswith("maximum[a.u.]") and compat_fixed_range_for_fl:
             pnrange = int(2**15)
         # If this is deformation, range shall be 100 (percent) or 1
-        elif chn_names[i] == "Deformation" or chn_names[i]=="Circularity:
+        elif chn_names[i] == "Deformation" or chn_names[i]=="Circularity":
             # if column contains scaled data, set range to 100
             if i in toscale:
               pnrange = 100
