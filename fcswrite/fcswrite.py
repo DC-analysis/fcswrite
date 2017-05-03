@@ -115,7 +115,12 @@ def write_fcs(filename, chn_names, data,
     TEXT+='/$MODE/L/$NEXTDATA/0/$TOT/{0}'.format(data.shape[0])
     TEXT+='/$PAR/{0}'.format(data.shape[1])
     for i in range(data.shape[1]):
-        pnrange = int(abs(max(data[:,i])))
+        if chn_names[i].endswith("maximum[a.u.]"):
+            pnrange = int(2**15)
+        elif chn_names[i] == "Deformation":
+            pnrange = 100
+        else:
+            pnrange = int(abs(max(data[:,i])))
         # TODO:
         # - Set log/lin 
         TEXT+='/$P{0}B/32/$P{0}E/0,0/$P{0}N/{1}/$P{0}R/{2}/$P{0}D/Linear'.format(i+1, chn_names[i], pnrange)
