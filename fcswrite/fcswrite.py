@@ -4,6 +4,7 @@
 from __future__ import print_function, unicode_literals, division
 
 import struct
+import sys
 
 import numpy as np
 
@@ -149,9 +150,14 @@ def write_fcs(filename, chn_names, data,
                                 anafirst  +
                                 analast)
 
+    # Python 2
+    if sys.version_info[0] == 2:
+        HEADER = HEADER.decode("utf-8")
+        TEXT = TEXT.decode("utf-8")
+
     # Write data
     with open(filename, "wb") as fd:
-        fd.write(HEADER.decode("utf-8").encode("ascii", "replace"))
-        fd.write(TEXT.decode("utf-8").encode("ascii", "replace"))
+        fd.write(HEADER.encode("ascii", "replace"))
+        fd.write(TEXT.encode("ascii", "replace"))
         fd.write(DATA)
         fd.write(b'00000000')
