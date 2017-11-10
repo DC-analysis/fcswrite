@@ -106,7 +106,7 @@ def write_fcs(filename, chn_names, data,
     anafirst = '{0: >8}'.format(0)
     analast  = '{0: >8}'.format(0)
     # use little endian
-    # byteord = '1,2,3,4'
+    #byteord = '1,2,3,4'
     # use big endian
     byteord = '4,3,2,1'
     TEXT ='/$BEGINANALYSIS/0/$ENDANALYSIS/0'
@@ -125,10 +125,10 @@ def write_fcs(filename, chn_names, data,
         elif chn_names[i] == "Deformation" or chn_names[i]=="Circularity":
             # if column contains scaled data, set range to 100
             if i in toscale:
-              pnrange = 100
+                pnrange = 100
             # if not, to 1
             else:
-              pnrange = 1
+                pnrange = 1
         # default: set range to maxium value found in column
         else:
             pnrange = int(abs(max(data[:,i])))

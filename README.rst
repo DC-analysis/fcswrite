@@ -46,6 +46,6 @@ Running tests
    :target: https://pypi.python.org/pypi/fcswrite
 .. |Tests| image:: http://img.shields.io/travis/ZELLMECHANIK-DRESDEN/fcswrite.svg
    :target: https://travis-ci.org/ZELLMECHANIK-DRESDEN/fcswrite
-.. |Coverage Status| image:: https://img.shields.io/coveralls/ZELLMECHANIK-DRESDEN/fcswrite.svg
-   :target: https://coveralls.io/r/ZELLMECHANIK-DRESDEN/fcswrite
+.. |Coverage Status| image:: https://img.shields.io/coveralls/ZELLMECHANIK-.. |Coverage Status| image:: https://img.shields.io/codecov/c/github/ZELLMECHANIK-DRESDEN/fcswrite/master.svg
+   :target: https://codecov.io/gh/ZELLMECHANIK-DRESDEN/fcswrite
 
