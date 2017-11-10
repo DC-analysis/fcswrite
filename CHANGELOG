@@ -1,5 +1,6 @@
 0.1.4
  - set range for fluorescence data to 2**15
+ - fix UnicodeDecodeError when saving UTF-8 headers
 0.1.3
  - include all example data in dist package
  - force installation of package data

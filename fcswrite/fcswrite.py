@@ -3,8 +3,9 @@
 """Write .fcs files for flow cytometry"""
 from __future__ import print_function, unicode_literals, division
 
-import numpy as np
 import struct
+
+import numpy as np
 
 
 def write_fcs(filename, chn_names, data,
@@ -150,7 +151,7 @@ def write_fcs(filename, chn_names, data,
 
     # Write data
     with open(filename, "wb") as fd:
-        fd.write(HEADER.encode("ascii"))
-        fd.write(TEXT.encode("ascii"))
+        fd.write(HEADER.decode("utf-8").encode("ascii", "replace"))
+        fd.write(TEXT.decode("utf-8").encode("ascii", "replace"))
         fd.write(DATA)
         fd.write(b'00000000')
