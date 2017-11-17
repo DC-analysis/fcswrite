@@ -150,11 +150,6 @@ def write_fcs(filename, chn_names, data,
                                 anafirst  +
                                 analast)
 
-    # Python 2
-    if sys.version_info[0] == 2:
-        HEADER = HEADER.decode("utf-8")
-        TEXT = TEXT.decode("utf-8")
-
     # Write data
     with open(filename, "wb") as fd:
         fd.write(HEADER.encode("ascii", "replace"))
