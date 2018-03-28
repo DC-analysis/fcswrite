@@ -3,8 +3,13 @@ python:
 - '2.7'
 - '3.4'
 - '3.5'
+- '3.6'
 notifications:
   email: false
+env:
+  matrix:
+  - TEST="PYTEST"
+  - TEST="FLAKE8"
 install:
 # Install binary packages
 - travis_retry pip install --upgrade pip setuptools wheel
@@ -12,11 +17,17 @@ install:
 # Install all other dependencies
 - travis_retry pip install .
 # for tests:
+- travis_retry pip install flake8
 - travis_retry pip install codecov coverage
 - pip freeze
 script:
-- coverage run --source=fcswrite ./setup.py test
-- coverage report -m
-after_success:
-- codecov
-
+- set -ev
+- if [ "${TEST}" == "PYTEST" ]; then
+       coverage run --source=fcswrite setup.py test;
+       coverage report -m;
+       codecov;
+  else
+       flake8 drymass;
+       flake8 examples;
+       flake8 tests;
+  fi;
