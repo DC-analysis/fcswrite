@@ -4,12 +4,7 @@
 """
 import nptdms
 import numpy as np
-from os.path import dirname, abspath, split, join
-import sys
-
-# Add parent directory to beginning of path variable
-DIR = dirname(abspath(__file__))
-sys.path.insert(0, split(DIR)[0])
+from os.path import dirname, abspath, join
 
 import fcswrite
 
@@ -18,34 +13,34 @@ def read_tdms(tdms_file):
     """Read tdms file and return channel names and data"""
     tdms_file = nptdms.TdmsFile(tdms_file)
     ch_names = []
-    ch_data  = []
+    ch_data = []
 
     for o in tdms_file.objects.values():
         if o.data is not None:
             chn = o.path.split('/')[-1].strip("'")
-            if o.properties.has_key("unit_string"):
+            if "unit_string" in o.properties:
                 unit = o.properties["unit_string"]
                 ch_names.append("{} [{}]".format(chn, unit))
             else:
                 ch_names.append(chn)
-            
+
             ch_data.append(o.data)
-    
+
     return ch_names, ch_data
 
 
 def add_deformation(chn_names, data):
     """From circularity, compute the deformation
-    
+
     This method is useful for RT-DC data sets that contain
     the circularity but not the deformation.
     """
-    if not "deformation" in chn_names:
+    if "deformation" not in chn_names:
         for ii, ch in enumerate(chn_names):
             if ch == "circularity":
                 chn_names.append("deformation")
                 data.append(1-data[ii])
-    
+
     return chn_names, data
 
 
@@ -63,4 +58,3 @@ if __name__ == "__main__":
     # Create an fcs file where this tdms file is located:
     tdms_file = join(dirname(abspath(__file__)), "data/example_rt-dc.tdms")
     tdms2fcs(tdms_file)
-
