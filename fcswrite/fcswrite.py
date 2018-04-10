@@ -15,8 +15,7 @@ def write_fcs(filename, chn_names, data,
               compat_percent=True,
               compat_negative=True,
               compat_copy=True,
-              compat_fixed_range_for_fl=True,
-              verbose=0):
+              compat_fixed_range_for_fl=True):
     """Write numpy data to an .fcs file (FCS3.0 file format)
 
 
@@ -47,7 +46,7 @@ def write_fcs(filename, chn_names, data,
 
     Notes
     -----
-    
+
     - These commonly used unicode characters are replaced: "µ", "²"
     - If the input data contain NaN values, the corresponding rows
       are excluded due to incompatibility with the FCS file format.
