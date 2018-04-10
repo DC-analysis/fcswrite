@@ -13,9 +13,9 @@ Compatibility
 -------------
 fcswrite was tested (not thoroughly) with these softwares/libraries:
 
-- FlowJo: `<www.flowjo.com>`__
-- Flowing Software: `<www.flowingsoftware.com>`__
-- Python Flow Cytometry (FCM) Tools: `<pypi.python.org/pypi/fcm>`__
+- FlowJo: `<https://www.flowjo.com/>`__
+- Flowing Software: `<http://flowingsoftware.btk.fi>`__
+- Python Flow Cytometry (FCM) Tools: `<https://pypi.python.org/pypi/fcm>`__
 
 
 Installation
