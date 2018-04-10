@@ -4,6 +4,7 @@
 from __future__ import print_function, unicode_literals, division
 
 import struct
+import warnings
 
 import numpy as np
 
@@ -46,11 +47,20 @@ def write_fcs(filename, chn_names, data,
 
     Notes
     -----
-    These commonly used unicode characters are replaced: "µ", "²"
+    
+    - These commonly used unicode characters are replaced: "µ", "²"
+    - If the input data contain NaN values, the corresponding rows
+      are excluded due to incompatibility with the FCS file format.
 
     """
     if not isinstance(data, np.ndarray):
         data = np.array(data)
+    # remove rows with nan values
+    nanrows = np.isnan(data).any(axis=1)
+    if np.sum(nanrows):
+        msg = "Rows containing NaNs are not written to {}!".format(filename)
+        warnings.warn(msg)
+        data = data[~nanrows]
     if endianness not in ["little", "big"]:
         raise ValueError("`endianness` must be 'little' or 'big'!")
 
@@ -140,7 +150,7 @@ def write_fcs(filename, chn_names, data,
                 pnrange = 1
         # default: set range to maxium value found in column
         else:
-            pnrange = int(abs(max(data[:, i])))
+            pnrange = int(abs(np.max(data[:, i])))
         # TODO:
         # - Set log/lin
         fmt_str = '/$P{0}B/32/$P{0}E/0,0/$P{0}N/{1}/$P{0}R/{2}/$P{0}D/Linear'
