@@ -31,29 +31,28 @@ else:
     tests_require=[]
 
 
-if __name__ == "__main__":
-    setup(
-        name=name,
-        author=author,
-        author_email='dev@craban.de',
-        url='http://ZELLMECHANIK-DRESDEN.github.io/fcswrite/',
-        version=version,
-        packages=[name],
-        package_dir={name: name},
-        license="BSD (3 clause)",
-        description=description,
-        long_description=open('README.rst').read() if exists('README.rst') else '',
-        install_requires=["NumPy>=1.7.0"],
-        setup_requires=['pytest-runner'],
-        tests_require=["pytest"]+tests_require,
-        include_package_data=True,
-        keywords=["fcs", "flow cytometry", "flow cytometry standard"],
-        classifiers= [
-            'Operating System :: OS Independent',
-            'Programming Language :: Python :: 2.7',
-            'Programming Language :: Python :: 3.4',
-            'Programming Language :: Python :: 3.5',
-            'Intended Audience :: Science/Research'
-                     ],
-        platforms=['ALL'],
-        )
+setup(
+    name=name,
+    author=author,
+    author_email='dev@craban.de',
+    url='http://ZELLMECHANIK-DRESDEN.github.io/fcswrite/',
+    version=version,
+    packages=[name],
+    package_dir={name: name},
+    license="BSD (3 clause)",
+    description=description,
+    long_description=open('README.rst').read() if exists('README.rst') else '',
+    install_requires=["numpy>=1.7.0"],
+    setup_requires=['pytest-runner'],
+    tests_require=["pytest"]+tests_require,
+    include_package_data=True,
+    keywords=["fcs", "flow cytometry", "flow cytometry standard"],
+    classifiers= [
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Intended Audience :: Science/Research'
+                 ],
+    platforms=['ALL'],
+    )
