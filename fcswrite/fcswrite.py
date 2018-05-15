@@ -12,10 +12,10 @@ import numpy as np
 def write_fcs(filename, chn_names, data,
               endianness="big",
               compat_chn_names=True,
-              compat_percent=True,
-              compat_negative=True,
               compat_copy=True,
-              compat_fixed_range_for_fl=True):
+              compat_negative=True,
+              compat_percent=True,
+              compat_max_int16=10000):
     """Write numpy data to an .fcs file (FCS3.0 file format)
 
 
@@ -33,16 +33,20 @@ def write_fcs(filename, chn_names, data,
         Compatibility mode for 3rd party flow analysis software:
         The characters " ", "?", and "_" are removed in the output
         channel names.
+    compat_copy: bool
+        Do not override the input array `data` when modified in
+        compatibility mode.
+    compat_negative: bool
+        Compatibliity mode for 3rd party flow analysis software:
+        Flip the sign of `data` if its mean is smaller than zero.
     compat_percent: bool
         Compatibliity mode for 3rd party flow analysis software:
         If a column in `data` contains values only between 0 and 1,
         they are multiplied by 100.
-    compat_negative: bool
+    compat_max_int16: int
         Compatibliity mode for 3rd party flow analysis software:
-        Flip the sign of `data` if its mean is smaller than zero.
-    compat_copy: bool
-        Do not override the input array `data` when modified in
-        compatibility mode.
+        If a column in `data` has a maximum above this value,
+        then the display-maximum is set to 2**15.
 
     Notes
     -----
@@ -53,7 +57,7 @@ def write_fcs(filename, chn_names, data,
 
     """
     if not isinstance(data, np.ndarray):
-        data = np.array(data)
+        data = np.array(data, dtype=float)
     # remove rows with nan values
     nanrows = np.isnan(data).any(axis=1)
     if np.sum(nanrows):
@@ -77,22 +81,22 @@ def write_fcs(filename, chn_names, data,
                 ["_", ""],
                 ]
 
-    for i in range(len(chn_names)):
+    for ii in range(len(chn_names)):
         for (a, b) in rpl:
-            chn_names[i] = chn_names[i].replace(a, b)
+            chn_names[ii] = chn_names[ii].replace(a, b)
 
-    if compat_percent:
+    # Data with values between 0 and 1
+    pcnt_cands = []
+    for ch in range(data.shape[1]):
+        if data[:, ch].min() >= 0 and data[:, ch].max() <= 1:
+            pcnt_cands.append(ch)
+    if compat_percent and pcnt_cands:
         # Compatibility mode: Scale values b/w 0 and 1 to percent
-        toscale = []
-        for ch in range(data.shape[1]):
-            if data[:, ch].min() > 0 and data[:, ch].max() < 1:
-                toscale.append(ch)
-        if len(toscale):
-            if compat_copy:
-                # copy if requested
-                data = data.copy()
-            for ch in toscale:
-                data[:, ch] *= 100
+        if compat_copy:
+            # copy if requested
+            data = data.copy()
+        for ch in pcnt_cands:
+            data[:, ch] *= 100
 
     if compat_negative:
         toflip = []
@@ -134,26 +138,25 @@ def write_fcs(filename, chn_names, data,
     TEXT += '/$PAR/{0}'.format(data.shape[1])
 
     # Check for content of data columns and set range
-    for i in range(data.shape[1]):
-        # Check if this is fluorescence data, set range to 2**15
-        if (chn_names[i].endswith("maximum[a.u.]") and
-                compat_fixed_range_for_fl):
+    for jj in range(data.shape[1]):
+        # Set data maximum to that of int16
+        if (compat_max_int16 and
+            np.max(data[:, jj]) > compat_max_int16 and
+                np.max(data[:, jj]) < 2**15):
             pnrange = int(2**15)
-        # If this is deformation, range shall be 100 (percent) or 1
-        elif chn_names[i] == "Deformation" or chn_names[i] == "Circularity":
-            # if column contains scaled data, set range to 100
-            if i in toscale:
+        # Set range for data with values between 0 and 1
+        elif jj in pcnt_cands:
+            if compat_percent:  # scaled to 100%
                 pnrange = 100
-            # if not, to 1
-            else:
+            else:  # not scaled
                 pnrange = 1
         # default: set range to maxium value found in column
         else:
-            pnrange = int(abs(np.max(data[:, i])))
+            pnrange = int(abs(np.max(data[:, jj])))
         # TODO:
         # - Set log/lin
         fmt_str = '/$P{0}B/32/$P{0}E/0,0/$P{0}N/{1}/$P{0}R/{2}/$P{0}D/Linear'
-        TEXT += fmt_str.format(i+1, chn_names[i], pnrange)
+        TEXT += fmt_str.format(jj+1, chn_names[jj], pnrange)
     TEXT += '/'
     textlast = '{0: >8}'.format(len(TEXT)+256-1)
     TEXT = TEXT.ljust(ltxt, ' ')

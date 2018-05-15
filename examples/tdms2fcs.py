@@ -16,7 +16,7 @@ def read_tdms(tdms_file):
     ch_data = []
 
     for o in tdms_file.objects.values():
-        if o.data is not None:
+        if o.data is not None and len(o.data):
             chn = o.path.split('/')[-1].strip("'")
             if "unit_string" in o.properties:
                 unit = o.properties["unit_string"]
