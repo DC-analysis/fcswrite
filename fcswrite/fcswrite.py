@@ -56,6 +56,7 @@ def write_fcs(filename, chn_names, data,
       are excluded due to incompatibility with the FCS file format.
 
     """
+    filename = str(filename)
     if not isinstance(data, np.ndarray):
         data = np.array(data, dtype=float)
     # remove rows with nan values

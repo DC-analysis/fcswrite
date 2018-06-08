@@ -1,3 +1,6 @@
+0.3.0
+ - feat: support pathlib.Path object as output filename
+ - cleanup setup files
 0.2.0
  - added compatibility mode for range of int16 data
  - fix UnicodeDecodeError when saving UTF-8 headers
