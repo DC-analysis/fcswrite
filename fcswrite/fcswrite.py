@@ -3,6 +3,7 @@
 """Write .fcs files for flow cytometry"""
 from __future__ import print_function, unicode_literals, division
 
+import pathlib
 import struct
 import warnings
 
@@ -56,7 +57,7 @@ def write_fcs(filename, chn_names, data,
       are excluded due to incompatibility with the FCS file format.
 
     """
-    filename = str(filename)
+    filename = pathlib.Path(filename)
     if not isinstance(data, np.ndarray):
         data = np.array(data, dtype=float)
     # remove rows with nan values
@@ -172,7 +173,7 @@ def write_fcs(filename, chn_names, data,
                                 analast)
 
     # Write data
-    with open(filename, "wb") as fd:
+    with filename.open("wb") as fd:
         fd.write(HEADER.encode("ascii", "replace"))
         fd.write(TEXT.encode("ascii", "replace"))
         fd.write(DATA)

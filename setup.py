@@ -26,9 +26,11 @@ if sys.version_info[0]==2:
     # To be able to use matplotlib>1.3.0, we monkeypatch
     # matplotlib for fcm.
     # fcm only seems to work with Python 2.
-    tests_require=["fcm", "mock"]
+    tests_require = ["fcm", "mock"]
+    install_pathlib = ["pathlib"]
 else:
     tests_require=[]
+    install_pathlib = []
 
 
 setup(
@@ -42,7 +44,7 @@ setup(
     license="BSD (3 clause)",
     description=description,
     long_description=open('README.rst').read() if exists('README.rst') else '',
-    install_requires=["numpy>=1.7.0"],
+    install_requires=["numpy>=1.7.0"] + install_pathlib,
     setup_requires=['pytest-runner'],
     tests_require=["pytest"]+tests_require,
     include_package_data=True,

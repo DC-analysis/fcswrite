@@ -5,8 +5,9 @@ fcswrite
 
 
 fcswrite allows you to write .fcs files, a file format used in flow cytometry.
-Currently, fcswrite partially supports the FCS3.0 file format - Contributions
-to fcswrite are welcome.
+Currently, fcswrite partially supports the `FCS3.0
+<https://doi.org/10.1002%2F%28SICI%291097-0320%2819970601%2928%3A2%3C118%3A%3AAID-CYTO3%3E3.0.CO%3B2-B>`__
+file format - Contributions to fcswrite are welcome.
 
 
 Compatibility
