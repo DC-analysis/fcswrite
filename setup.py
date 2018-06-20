@@ -16,7 +16,7 @@ This package provides basic functionalities for writing flow cytometry
 standard (.fcs) files.
 """
 
-sys.path.insert(0, realpath(dirname(__file__))+"/"+name)
+sys.path.insert(0, realpath(dirname(__file__)) + "/" + name)
 from _version import version
 
 
@@ -29,7 +29,7 @@ if sys.version_info[0]==2:
     tests_require = ["fcm", "mock"]
     install_pathlib = ["pathlib"]
 else:
-    tests_require=[]
+    tests_require = []
     install_pathlib = []
 
 
