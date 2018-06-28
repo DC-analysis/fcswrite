@@ -128,7 +128,7 @@ def write_fcs(filename, chn_names, data,
     # Starting with FCS 3.0, data segment can end beyond byte 99,999,999,
     # in which case a zero is written in each of the two header fields (the
     # values are given in the text segment keywords $BEGINDATA and $ENDDATA)
-    if data_end_byte <= 99_999_999:
+    if data_end_byte <= 99999999:
         datafirst = '{0: >8}'.format(data_start_byte)
         datalast = '{0: >8}'.format(data_end_byte)
     else:
