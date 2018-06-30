@@ -1,4 +1,5 @@
-0.3.1
+0.4.0
+ - support data segments that end beyond 99,999,999th byte (#2)
  - use pathlib internally
 0.3.0
  - feat: support pathlib.Path object as output filename

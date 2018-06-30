@@ -22,7 +22,7 @@ def write_fcs(filename, chn_names, data,
 
     Parameters
     ----------
-    filename: str
+    filename: str or pathlib.Path
         Path to the output .fcs file
     ch_names: list of str, length C
         Names of the output channels
@@ -121,10 +121,10 @@ def write_fcs(filename, chn_names, data,
     ltxt = 4096
     ver = 'FCS3.0'
     textfirst = '{0: >8}'.format(256)
-    
+
     data_start_byte = 256+ltxt
     data_end_byte = data_start_byte+len(DATA)-1
-    
+
     # Starting with FCS 3.0, data segment can end beyond byte 99,999,999,
     # in which case a zero is written in each of the two header fields (the
     # values are given in the text segment keywords $BEGINDATA and $ENDDATA)
@@ -134,7 +134,7 @@ def write_fcs(filename, chn_names, data,
     else:
         datafirst = '{0: >8}'.format(0)
         datalast = '{0: >8}'.format(0)
-    
+
     anafirst = '{0: >8}'.format(0)
     analast = '{0: >8}'.format(0)
     if endianness == "little":
