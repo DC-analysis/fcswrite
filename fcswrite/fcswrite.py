@@ -121,8 +121,20 @@ def write_fcs(filename, chn_names, data,
     ltxt = 4096
     ver = 'FCS3.0'
     textfirst = '{0: >8}'.format(256)
-    datafirst = '{0: >8}'.format(256+ltxt)
-    datalast = '{0: >8}'.format(256+ltxt+len(DATA)-1)
+    
+    data_start_byte = 256+ltxt
+    data_end_byte = data_start_byte+len(DATA)-1
+    
+    # Starting with FCS 3.0, data segment can end beyond byte 99,999,999,
+    # in which case a zero is written in each of the two header fields (the
+    # values are given in the text segment keywords $BEGINDATA and $ENDDATA)
+    if data_end_byte <= 99999999:
+        datafirst = '{0: >8}'.format(data_start_byte)
+        datalast = '{0: >8}'.format(data_end_byte)
+    else:
+        datafirst = '{0: >8}'.format(0)
+        datalast = '{0: >8}'.format(0)
+    
     anafirst = '{0: >8}'.format(0)
     analast = '{0: >8}'.format(0)
     if endianness == "little":
@@ -134,7 +146,7 @@ def write_fcs(filename, chn_names, data,
     TEXT = '/$BEGINANALYSIS/0/$ENDANALYSIS/0'
     TEXT += '/$BEGINSTEXT/0/$ENDSTEXT/0'
     TEXT += '/$BEGINDATA/{0}/$ENDDATA/{1}'.format(
-        256+ltxt, 256+ltxt+len(DATA)-1)
+        data_start_byte, data_end_byte)
     TEXT += '/$BYTEORD/{0}/$DATATYPE/F'.format(byteord)
     TEXT += '/$MODE/L/$NEXTDATA/0/$TOT/{0}'.format(data.shape[0])
     TEXT += '/$PAR/{0}'.format(data.shape[1])
