@@ -27,7 +27,7 @@ script:
        coverage report -m;
        codecov;
   else
-       flake8 drymass;
+       flake8 fcswrite;
        flake8 examples;
        flake8 tests;
   fi;
