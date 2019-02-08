@@ -117,12 +117,8 @@ def write_fcs(filename, chn_names, data,
     DATA = struct.pack('>%sf' % len(data1), *data1)
 
     # TEXT segment
-    ver = 'FCS3.0'
     header_size = 256
-    textfirst = '{0: >8}'.format(header_size)
 
-    anafirst = '{0: >8}'.format(0)
-    analast = '{0: >8}'.format(0)
     if endianness == "little":
         # use little endian
         byteord = '1,2,3,4'
@@ -159,19 +155,23 @@ def write_fcs(filename, chn_names, data,
         fmt_str = '/$P{0}B/32/$P{0}E/0,0/$P{0}N/{1}/$P{0}R/{2}/$P{0}D/Linear'
         TEXT += fmt_str.format(jj+1, chn_names[jj], pnrange)
     TEXT += '/'
-    textlast = '{0: >8}'.format(len(TEXT)+256-1)
 
     # SET $BEGINDATA and $ENDDATA using the current size of TEXT plus padding.
-    text_padding = 47  # for visual separation
+    text_padding = 47  # for visual separation and safety
     data_start_byte = header_size + len(TEXT) + text_padding
     data_end_byte = data_start_byte + len(DATA) - 1
     TEXT = TEXT.format(data_start_byte=data_start_byte,
                        data_end_byte=data_end_byte)
-
+    lentxt = len(TEXT)
     # Pad TEXT segment with spaces until data_start_byte
-    TEXT = TEXT.ljust(data_start_byte - header_size)
+    TEXT = TEXT.ljust(data_start_byte - header_size, " ")
 
     # HEADER segment
+    ver = 'FCS3.0'
+
+    textfirst = '{0: >8}'.format(header_size)
+    textlast = '{0: >8}'.format(lentxt + header_size - 1)
+
     # Starting with FCS 3.0, data segment can end beyond byte 99,999,999,
     # in which case a zero is written in each of the two header fields (the
     # values are given in the text segment keywords $BEGINDATA and $ENDDATA)
@@ -182,13 +182,16 @@ def write_fcs(filename, chn_names, data,
         datafirst = '{0: >8}'.format(0)
         datalast = '{0: >8}'.format(0)
 
-    HEADER = '{0: <256}'.format(ver+'    ' +
-                                textfirst +
-                                textlast +
-                                datafirst +
-                                datalast +
-                                anafirst +
-                                analast)
+    anafirst = '{0: >8}'.format(0)
+    analast = '{0: >8}'.format(0)
+
+    HEADER = '{0: <256}'.format(ver + '    '
+                                + textfirst
+                                + textlast
+                                + datafirst
+                                + datalast
+                                + anafirst
+                                + analast)
 
     # Write data
     with filename.open("wb") as fd:

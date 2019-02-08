@@ -20,7 +20,7 @@ sys.path.insert(0, realpath(dirname(__file__)) + "/" + name)
 from _version import version
 
 
-if sys.version_info[0]==2:
+if sys.version_info[0] == 2:
     # Note:
     # scipy and matplotlib<1.3.0 are required for fcm
     # To be able to use matplotlib>1.3.0, we monkeypatch

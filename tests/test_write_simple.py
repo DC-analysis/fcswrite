@@ -28,7 +28,7 @@ def test_write_fcs():
     hasher = hashlib.md5()
     hasher.update(data)
     hexval = hasher.hexdigest()
-    assert hexval == "a656dd5695eb46a6fb63ff30880f4ae2"
+    assert hexval == "024af5149a4a7e88481979eda65a019a"
     os.remove(fname)
 
 
