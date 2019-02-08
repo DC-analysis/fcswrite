@@ -21,14 +21,14 @@ def test_write_fcs():
 
     with open(fname, "rb") as fd:
         data = fd.read()
-    data = np.frombuffer(data, dtype=np.uint16)
+    data = np.frombuffer(data, dtype=np.uint8)
     # remove empty lines
     data = data[data != 8224]
     data = data.tostring()
     hasher = hashlib.md5()
     hasher.update(data)
     hexval = hasher.hexdigest()
-    assert hexval == "9bd27b7da851de04b713adfbcfa54fb3"
+    assert hexval == "a656dd5695eb46a6fb63ff30880f4ae2"
     os.remove(fname)
 
 
