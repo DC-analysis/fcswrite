@@ -1,5 +1,5 @@
 0.4.2
- - fix: always write correct header size (#4)
+ - fix: always write correct TEXT size (#4)
 0.4.1
  - ci: automate release to PyPI using travis-ci
 0.4.0
