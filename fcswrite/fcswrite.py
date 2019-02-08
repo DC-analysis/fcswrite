@@ -117,23 +117,9 @@ def write_fcs(filename, chn_names, data,
     DATA = struct.pack('>%sf' % len(data1), *data1)
 
     # TEXT segment
-    # fix length of TEXT to 4 kilo bytes
-    ltxt = 4096
     ver = 'FCS3.0'
-    textfirst = '{0: >8}'.format(256)
-
-    data_start_byte = 256+ltxt
-    data_end_byte = data_start_byte+len(DATA)-1
-
-    # Starting with FCS 3.0, data segment can end beyond byte 99,999,999,
-    # in which case a zero is written in each of the two header fields (the
-    # values are given in the text segment keywords $BEGINDATA and $ENDDATA)
-    if data_end_byte <= 99999999:
-        datafirst = '{0: >8}'.format(data_start_byte)
-        datalast = '{0: >8}'.format(data_end_byte)
-    else:
-        datafirst = '{0: >8}'.format(0)
-        datalast = '{0: >8}'.format(0)
+    header_size = 256
+    textfirst = '{0: >8}'.format(header_size)
 
     anafirst = '{0: >8}'.format(0)
     analast = '{0: >8}'.format(0)
@@ -145,8 +131,9 @@ def write_fcs(filename, chn_names, data,
         byteord = '4,3,2,1'
     TEXT = '/$BEGINANALYSIS/0/$ENDANALYSIS/0'
     TEXT += '/$BEGINSTEXT/0/$ENDSTEXT/0'
-    TEXT += '/$BEGINDATA/{0}/$ENDDATA/{1}'.format(
-        data_start_byte, data_end_byte)
+    # Add placeholders for $BEGINDATA and $ENDDATA, because we don't
+    # know yet how long TEXT is.
+    TEXT += '/$BEGINDATA/{data_start_byte}/$ENDDATA/{data_end_byte}'
     TEXT += '/$BYTEORD/{0}/$DATATYPE/F'.format(byteord)
     TEXT += '/$MODE/L/$NEXTDATA/0/$TOT/{0}'.format(data.shape[0])
     TEXT += '/$PAR/{0}'.format(data.shape[1])
@@ -173,9 +160,28 @@ def write_fcs(filename, chn_names, data,
         TEXT += fmt_str.format(jj+1, chn_names[jj], pnrange)
     TEXT += '/'
     textlast = '{0: >8}'.format(len(TEXT)+256-1)
-    TEXT = TEXT.ljust(ltxt, ' ')
+
+    # SET $BEGINDATA and $ENDDATA using the current size of TEXT plus padding.
+    text_padding = 47  # for visual separation
+    data_start_byte = header_size + len(TEXT) + text_padding
+    data_end_byte = data_start_byte + len(DATA) - 1
+    TEXT = TEXT.format(data_start_byte=data_start_byte,
+                       data_end_byte=data_end_byte)
+
+    # Pad TEXT segment with spaces until data_start_byte
+    TEXT = TEXT.ljust(data_start_byte - header_size)
 
     # HEADER segment
+    # Starting with FCS 3.0, data segment can end beyond byte 99,999,999,
+    # in which case a zero is written in each of the two header fields (the
+    # values are given in the text segment keywords $BEGINDATA and $ENDDATA)
+    if data_end_byte <= 99999999:
+        datafirst = '{0: >8}'.format(data_start_byte)
+        datalast = '{0: >8}'.format(data_end_byte)
+    else:
+        datafirst = '{0: >8}'.format(0)
+        datalast = '{0: >8}'.format(0)
+
     HEADER = '{0: <256}'.format(ver+'    ' +
                                 textfirst +
                                 textlast +
