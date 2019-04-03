@@ -6,10 +6,6 @@ python:
 - '3.6'
 notifications:
   email: false
-env:
-  matrix:
-  - TEST="PYTEST"
-  - TEST="FLAKE8"
 install:
 # Install binary packages
 - travis_retry pip install --upgrade pip setuptools wheel
@@ -22,15 +18,12 @@ install:
 - pip freeze
 script:
 - set -ev
-- if [ "${TEST}" == "PYTEST" ]; then
-       coverage run --source=fcswrite setup.py test;
-       coverage report -m;
-       codecov;
-  else
-       flake8 fcswrite;
-       flake8 examples;
-       flake8 tests;
-  fi;
+- coverage run --source=fcswrite setup.py test
+- coverage report -m
+- codecov
+- flake8 fcswrite
+- flake8 examples
+- flake8 tests
 deploy:
   provider: pypi
   user: "ci_zmdd"
@@ -40,5 +33,4 @@ deploy:
     tags: true
     # limit to one version to avoid upload errors
     python: 3.6
-    condition: "$TEST = PYTEST"
   distributions: "sdist bdist_wheel"
