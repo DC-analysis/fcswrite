@@ -9,7 +9,6 @@ notifications:
 install:
 # Install binary packages
 - travis_retry pip install --upgrade pip setuptools wheel
-- travis_retry pip install --only-binary=matplotlib,numpy,scipy matplotlib numpy scipy
 # Install all other dependencies
 - travis_retry pip install .
 # for tests:
