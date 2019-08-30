@@ -17,6 +17,7 @@ fcswrite was tested (not thoroughly) with these softwares/libraries:
 - FlowJo: `<https://www.flowjo.com/>`__
 - Flowing Software: `<http://flowingsoftware.btk.fi>`__
 - Python Flow Cytometry (FCM) Tools: `<https://pypi.python.org/pypi/fcm>`__
+  (please note that FCM is horribly outdated)
 
 
 Installation

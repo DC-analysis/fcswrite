@@ -20,20 +20,6 @@ sys.path.insert(0, realpath(dirname(__file__)) + "/" + name)
 from _version import version
 
 
-if sys.version_info[0] == 2:
-    # Note:
-    # scipy and matplotlib<1.3.0 are required for fcm
-    # To be able to use matplotlib>1.3.0, we monkeypatch
-    # matplotlib for fcm.
-    # fcm only seems to work with Python 2.
-    tests_require = ["fcm", "mock", "pytest<5.0",
-                     # other fcm dependencies (with versions known to work):
-                     "scipy==1.2.2", "matplotlib==2.2.4"
-                     ]
-else:
-    tests_require = ["pytest"]
-
-
 setup(
     name=name,
     author=author,
@@ -49,7 +35,7 @@ setup(
                       "pathlib;python_version<='3.4'",
                       ],
     setup_requires=['pytest-runner'],
-    tests_require=tests_require,
+    tests_require=['pytest'],
     include_package_data=True,
     keywords=["fcs", "flow cytometry", "flow cytometry standard"],
     classifiers= [
