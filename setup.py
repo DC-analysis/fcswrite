@@ -35,7 +35,10 @@ setup(
                       "pathlib;python_version<='3.4'",
                       ],
     setup_requires=['pytest-runner'],
-    tests_require=['pytest', 'fcsparser'],
+    tests_require=["pytest",
+                   "fcsparser",
+                   "pandas<0.25;python_version<'3'",
+                   ],
     include_package_data=True,
     keywords=["fcs", "flow cytometry", "flow cytometry standard"],
     classifiers= [
