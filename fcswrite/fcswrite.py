@@ -9,8 +9,11 @@ import warnings
 
 import numpy as np
 
+from ._version import version
+
 
 def write_fcs(filename, chn_names, data,
+              text_kw_pr={},
               endianness="big",
               compat_chn_names=True,
               compat_copy=True,
@@ -28,6 +31,9 @@ def write_fcs(filename, chn_names, data,
         Names of the output channels
     data: 2d ndarray of shape (N,C)
         The numpy array data to store as .fcs file format.
+    text_kw_pr: dict
+        User-defined, optional key-value pairs that are stored
+        in the primary TEXT segment
     endianness: str
         Set to "little" or "big" to define the byte order used.
     compat_chn_names: bool
@@ -133,6 +139,11 @@ def write_fcs(filename, chn_names, data,
     TEXT += '/$BYTEORD/{0}/$DATATYPE/F'.format(byteord)
     TEXT += '/$MODE/L/$NEXTDATA/0/$TOT/{0}'.format(data.shape[0])
     TEXT += '/$PAR/{0}'.format(data.shape[1])
+    # Add fcswrite version
+    TEXT += '/fcswrite version/{0}'.format(version)
+    # Add additional key-value pairs by the user
+    for key in sorted(text_kw_pr.keys()):
+        TEXT += '/{0}/{1}'.format(key, text_kw_pr[key])
 
     # Check for content of data columns and set range
     for jj in range(data.shape[1]):
