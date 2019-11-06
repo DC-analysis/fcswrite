@@ -1,3 +1,5 @@
+0.5.1
+ - maintenance release
 0.5.0
  - feat: support writing user-defined key-value pairs in the
    primary TEXT segment
