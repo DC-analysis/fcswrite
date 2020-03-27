@@ -1,3 +1,7 @@
+0.5.2
+ - setup: update version files
+ - tests: remove Python 3.5 tests
+ - examples: update tdms2fcs to support nptdms 0.23.0
 0.5.1
  - maintenance release
 0.5.0

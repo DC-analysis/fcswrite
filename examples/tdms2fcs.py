@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Convert a tdms file to an fcs file using nptdms and fcswrite
+
+(requires nptdms>=0.23.0)
 """
 import nptdms
 import numpy as np
@@ -15,16 +17,16 @@ def read_tdms(tdms_file):
     ch_names = []
     ch_data = []
 
-    for o in tdms_file.objects.values():
-        if o.data is not None and len(o.data):
-            chn = o.path.split('/')[-1].strip("'")
-            if "unit_string" in o.properties:
-                unit = o.properties["unit_string"]
+    for ch in tdms_file.groups()[0].channels():
+        if ch.data is not None and len(ch.data):
+            chn = ch.name
+            if "unit_string" in ch.properties:
+                unit = ch.properties["unit_string"]
                 ch_names.append("{} [{}]".format(chn, unit))
             else:
                 ch_names.append(chn)
 
-            ch_data.append(o.data)
+            ch_data.append(ch.data)
 
     return ch_names, ch_data
 
