@@ -49,7 +49,7 @@ Running tests
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/fcswrite.svg
    :target: https://pypi.python.org/pypi/fcswrite
 .. |Tests| image:: https://img.shields.io/travis/ZELLMECHANIK-DRESDEN/fcswrite.svg
-   :target: https://travis-ci.org/ZELLMECHANIK-DRESDEN/fcswrite
+   :target: https://travis-ci.com/ZELLMECHANIK-DRESDEN/fcswrite
 .. |Coverage Status| image:: https://img.shields.io/codecov/c/github/ZELLMECHANIK-DRESDEN/fcswrite/master.svg
    :target: https://codecov.io/gh/ZELLMECHANIK-DRESDEN/fcswrite
 
