@@ -10,11 +10,11 @@ authors = ["Philipp Rosendahl", author]
 name = 'fcswrite'
 description = 'Write .fcs files (flow cytometry)'
 year = "2016"
-
 long_description = """
 This package provides basic functionalities for writing flow cytometry
 standard (.fcs) files.
 """
+
 sys.path.insert(0, realpath(dirname(__file__)) + "/" + name)
 from _version import version  # noqa: E402
 
