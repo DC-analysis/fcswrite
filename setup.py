@@ -15,9 +15,8 @@ long_description = """
 This package provides basic functionalities for writing flow cytometry
 standard (.fcs) files.
 """
-
 sys.path.insert(0, realpath(dirname(__file__)) + "/" + name)
-from _version import version
+from _version import version  # noqa: E402
 
 
 setup(
@@ -41,11 +40,11 @@ setup(
                    ],
     include_package_data=True,
     keywords=["fcs", "flow cytometry", "flow cytometry standard"],
-    classifiers= [
+    classifiers=[
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Intended Audience :: Science/Research'
-                 ],
+        ],
     platforms=['ALL'],
     )

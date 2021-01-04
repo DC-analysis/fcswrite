@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.6', '3.7', '3.8']
+        python-version: ['3.8', '3.9']
 
     steps:
     - uses: actions/checkout@v2
@@ -25,8 +25,6 @@ jobs:
         # prerequisites
         python -m pip install --upgrade pip wheel
         python -m pip install codecov coverage flake8 pytest
-        # install cython (pandas requirement)
-        pip install cython
         # install dependencies
         pip install -e .
         # show installed packages
