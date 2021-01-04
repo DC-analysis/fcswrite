@@ -25,6 +25,8 @@ jobs:
         # prerequisites
         python -m pip install --upgrade pip wheel
         python -m pip install codecov coverage flake8 pytest
+        # install cython (pandas requirement)
+        pip install cython
         # install dependencies
         pip install -e .
         # show installed packages
