@@ -1,3 +1,6 @@
+0.6.0
+ - setup: remove support for Python 2
+ - ci: migrate to GitHub actions
 0.5.2
  - setup: update version files
  - tests: remove Python 3.5 tests

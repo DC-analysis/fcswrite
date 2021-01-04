@@ -32,7 +32,7 @@ Install with pip:
 
 Requirements:
 
-- Python 2.7 or Python 3.x
+- Python >= 3.6
 - `numpy <https://github.com/numpy/numpy>`__
 
 
@@ -48,8 +48,7 @@ Running tests
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/fcswrite.svg
    :target: https://pypi.python.org/pypi/fcswrite
-.. |Tests| image:: https://img.shields.io/travis/ZELLMECHANIK-DRESDEN/fcswrite.svg
-   :target: https://travis-ci.com/ZELLMECHANIK-DRESDEN/fcswrite
+.. |Tests| image:: https://img.shields.io/github/workflow/status/ZELLMECHANIK-DRESDEN/fcswrite/Tests,%20Coverage,%20Linting
+   :target: https://github.com/ZELLMECHANIK-DRESDEN/fcswrite/actions?query=workflow%3A%22Tests%2C+Coverage%2C+Linting%22
 .. |Coverage Status| image:: https://img.shields.io/codecov/c/github/ZELLMECHANIK-DRESDEN/fcswrite/master.svg
    :target: https://codecov.io/gh/ZELLMECHANIK-DRESDEN/fcswrite
-

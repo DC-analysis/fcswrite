@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 """Write .fcs files for flow cytometry"""
 from __future__ import print_function, unicode_literals, division
 
