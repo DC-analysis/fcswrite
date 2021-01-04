@@ -1,4 +1,4 @@
-name: Tests, Coverage, Linting
+name: Checks on Linux
 
 on:
   push:
