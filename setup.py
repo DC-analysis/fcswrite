@@ -23,7 +23,7 @@ setup(
     name=name,
     author=author,
     author_email='dev@craban.de',
-    url='https://github.com/ZELLMECHANIK-DRESDEN/fcswrite',
+    url='https://github.com/DC-analysis/fcswrite',
     version=version,
     packages=[name],
     package_dir={name: name},

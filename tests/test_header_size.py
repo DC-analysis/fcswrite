@@ -1,6 +1,6 @@
 """Tests for large header sizes
 
-https://github.com/ZELLMECHANIK-DRESDEN/fcswrite/issues/4
+https://github.com/DC-analysis/fcswrite/issues/4
 """
 import os
 import tempfile
