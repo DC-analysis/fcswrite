@@ -1,5 +1,7 @@
 0.6.2
  - migration of repository to the DC-analysis organization
+ - tests: drop pytest-runner
+ - tests: fix numpy deprecation
 0.6.1
  - maintenance release
 0.6.0

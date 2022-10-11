@@ -26,7 +26,7 @@ def test_write_fcs():
     data = np.frombuffer(data, dtype=np.uint8)
     # remove empty lines
     data = data[data != 8224]
-    data = data.tostring()
+    data = data.tobytes()
     hasher = hashlib.md5()
     hasher.update(data)
     hexval = hasher.hexdigest()
