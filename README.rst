@@ -48,7 +48,7 @@ Running tests
 
 .. |PyPI Version| image:: https://img.shields.io/pypi/v/fcswrite.svg
    :target: https://pypi.python.org/pypi/fcswrite
-.. |Tests| image:: https://img.shields.io/github/workflow/status/DC-analysis/fcswrite/Checks%20on%20Linux
+.. |Tests| image:: https://img.shields.io/github/actions/workflow/status/DC-analysis/fcswrite/check.yml%20on%20Linux
    :target: https://github.com/DC-analysis/fcswrite/actions?query=workflow%3A%22Checks+on+Linux%22
 .. |Coverage Status| image:: https://img.shields.io/codecov/c/github/DC-analysis/fcswrite/master.svg
    :target: https://codecov.io/gh/DC-analysis/fcswrite
