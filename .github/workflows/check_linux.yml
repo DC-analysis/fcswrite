@@ -30,14 +30,11 @@ jobs:
         pip install -r tests/requirements.txt
         # show installed packages
         pip freeze
-    - name: Test with pytest
-      run: |
-        pytest tests
     - name: Lint with flake8
       run: |
         flake8 --exclude _version.py .
-    - name: Code coverage
+    - name: Test with pytest
       run: |
         coverage run --source=fcswrite -m pytest tests
-        coverage report -m
-        codecov
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
