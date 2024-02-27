@@ -35,7 +35,7 @@ jobs:
         pytest tests
     - name: Lint with flake8
       run: |
-        flake8 .
+        flake8 --exclude _version.py .
     - name: Code coverage
       run: |
         coverage run --source=fcswrite -m pytest tests
