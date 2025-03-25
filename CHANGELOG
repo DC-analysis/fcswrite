@@ -1,3 +1,5 @@
+0.6.3
+ - docs: add BSD license to innit
 0.6.2
  - migration of repository to the DC-analysis organization
  - tests: drop pytest-runner

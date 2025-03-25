@@ -27,7 +27,7 @@ setup(
     version=version,
     packages=[name],
     package_dir={name: name},
-    license="BSD (3 clause)",
+    license="BSD-3-Clause",
     description=description,
     long_description=open('README.rst').read() if exists('README.rst') else '',
     install_requires=["numpy>=1.7.0",
