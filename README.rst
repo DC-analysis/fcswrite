@@ -1,7 +1,7 @@
 fcswrite
 ========
 
-|PyPI Version| |Tests| |Coverage Status|
+|PyPI Version| |Build Status| |Coverage Status|
 
 
 fcswrite allows you to write .fcs files, a file format used in flow cytometry.
