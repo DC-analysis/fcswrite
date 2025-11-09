@@ -1,0 +1,41 @@
+[build-system]
+requires = [
+    # for version management
+    "setuptools>=45", "setuptools_scm[toml]>=6.2"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fcswrite"
+authors = [
+    # In alphabetical order.
+    {name = "Paul Müller"},
+    {name = "Philipp Rosendahl"},
+]
+maintainers = [
+    {name = "Paul Müller", email="dev@craban.de"},
+]
+description = "Write .fcs files (flow cytometry)"
+readme = "README.rst"
+requires-python = ">=3.6, <4"
+keywords = ["fcs", "flow cytometry", "flow cytometry standard"]
+classifiers = [
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering :: Visualization',
+    'Intended Audience :: Science/Research',
+]
+license = {text = "BSD-3-Clause"}
+dependencies = [
+    "numpy>=1.22.0",
+  ]
+dynamic = ["version"]
+
+[project.urls]
+source = "https://github.com/DC-analysis/fcswrite"
+tracker = "https://github.com/DC-analysis/fcswrite/issues"
+changelog = "https://raw.githubusercontent.com/DC-analysis/fcswrite/refs/heads/master/CHANGELOG"
+
+[tool.setuptools_scm]
+write_to = "fcswrite/_version.py"
+version_scheme = "post-release"

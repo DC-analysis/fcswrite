@@ -1,2 +1,4 @@
 pytest
-fcsparser
+# Tests with fcsparser are currently broken.
+# https://github.com/DC-analysis/fcswrite/issues/8
+# fcsparser

@@ -42,7 +42,8 @@ Running tests
 
 ::
 
-    python setup.py test
+    pip install -r tests requirements
+    pytest tests
 
     
 

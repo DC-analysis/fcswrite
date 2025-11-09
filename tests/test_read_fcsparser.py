@@ -1,9 +1,13 @@
 import pathlib
 import tempfile
 
+import pytest
+
 import fcswrite
-import fcsparser
 import numpy as np
+
+
+fcsparser = pytest.importorskip("fcsparser")
 
 
 def test_read_fcsparser():
